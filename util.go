@@ -69,10 +69,12 @@ func LoadPrivateKeyFromString(key string) (Signer, error) {
 
 // parsePublicKey parses a PEM encoded private key.
 func parsePrivateKey(pemBytes []byte) (Signer, error) {
-	block, _ := pem.Decode(pemBytes)
+	block, err := pem.Decode(pemBytes)
+	fmt.Println("block=", block, "err=", err)
 	if block == nil {
 		return nil, errors.New("ssh: no key found")
 	}
+	fmt.Println("block.Type=", block.Type)
 
 	var rawkey interface{}
 	switch block.Type {
